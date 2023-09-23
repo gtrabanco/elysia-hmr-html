@@ -34,7 +34,7 @@
     "publish:github": "npm publish --@gtrabanco:registry=https://npm.pkg.github.com/"
   },
   "dependencies": {
-    "@gtrabanco/elysia-inject-html": "1.0.0-3"
+    "@gtrabanco/elysia-inject-html": "1.0.0-4"
   },
   "devDependencies": {
     "@biomejs/biome": "1.2.2",
