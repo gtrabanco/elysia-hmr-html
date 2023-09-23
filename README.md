@@ -27,6 +27,19 @@ const app = new Elysia()
   })).listen(process.env.PORT || 0, ({ hostname, port }) => { console.log(`Elysia server started http://${hostname}:${port}`) });
 ```
 
+## Run the included example
+
+```bash
+git clone https://github.com/gtrabanco/elysia-hmr-html
+cd elysia-hmr-html
+bun install
+PORT=3000 bun example
+```
+
+After that open https://localhost:3000/index.html in your browser and open `${EDITOR} example/public/index.html`
+
+Change something and save, you will see the changes in the browser :)
+
 ## Other
 
 This plugin requires on `@gtrabanco/elysia-inject-html` package.
