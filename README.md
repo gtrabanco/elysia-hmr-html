@@ -16,14 +16,13 @@ bun add --exact @gtrabanco/elysia-hmr-html
 import { Elysia } from 'elysia';
 import { staticPlugin } from '@elysiajs/static'
 import { hmr } from '../src';
-import { join } from 'node:path';
 
 const app = new Elysia()
   .use(hmr({
-    prefixToWatch: join(import.meta.dir, 'public'), // Prefix to watch for changes
+    prefixToWatch: 'example/public' // Local path to watch for changes
   }))
   .use(staticPlugin({
-    assets: join(import.meta.dir, 'public'),
+    assets: 'example/public',
     prefix: '',
   })).listen(process.env.PORT || 0, ({ hostname, port }) => { console.log(`Elysia server started http://${hostname}:${port}`) });
 ```
