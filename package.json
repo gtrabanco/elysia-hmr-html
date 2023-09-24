@@ -1,6 +1,6 @@
 {
   "name": "@gtrabanco/elysia-hmr-html",
-  "version": "1.0.0-1",
+  "version": "1.0.0",
   "description": "Elysia plugin to make hmr with html files",
   "repository": "https://github.com/gtrabanco/elysia-hmr-html",
   "author": "Gabriel Trabanco <gtrabanco@users.noreply.github.com> (https://gabi.io)",
