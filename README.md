@@ -1,8 +1,16 @@
+Esta documentación está disponible también en español en el archivo [🇪🇸 README.es.md](README.es.md).
+
 # Elysia HMR HTML Plugin
 
 This plugin adds fast-refreash using Server Sent Events to your html files.
 
-You can view a example in [`example`](example) directory.
+You can view a example in [`example`](example) directory (is explained in this file).
+
+## Requisitos
+
+- Browser with [Server Sent Events Support](https://caniuse.com/eventsource)
+- [Elysia](https://elysiajs.com/) package installed
+- Bun. Not tested with NodeJS, but probably you will need [some wrappers](https://github.com/jhmaster2000/node-bun), [Elysia/node package](https://github.com/elysiajs/node-adapter) and [HTMLRewriter](https://www.npmjs.com/package/html-rewriter-wasm) package.
 
 ## Installation
 
@@ -36,7 +44,7 @@ bun install
 PORT=3000 bun example
 ```
 
-After that open https://localhost:3000/index.html in your browser and open `${EDITOR} example/public/index.html`
+After that open **https://localhost:3000/index.html** in your browser and open `${EDITOR} example/public/index.html`
 
 Change something and save, you will see the changes in the browser :)
 
@@ -49,5 +57,7 @@ This plugin listen in BroadcastChannel on client in the channel with configured 
 
 ## More information
 
+- [Elysia](https://elysiajs.com/)
+- [Browser support of Server Sent Events in CanIUse](https://caniuse.com/eventsource)
 - [MDN Server Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)
 - [BroadcastChannel](https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API)
