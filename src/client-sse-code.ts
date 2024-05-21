@@ -10,7 +10,7 @@ export function clientSSECode(
     window.addEventListener('load', () => {
       hmrSource = new EventSource("${hmrEndpoint}");
       hmrSource.addEventListener("${hmrEventName}", (event) => {
-        const data = JSON.parse(event.data);
+        const data = event.data;
         if(data === "*" || data === window.location.pathname) {
           window.location.reload()
         }
