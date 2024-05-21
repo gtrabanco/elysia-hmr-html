@@ -23,18 +23,18 @@ function channelSubscribe(
 	channels: string[],
 	handler: (payload: SSEEvent) => void,
 ): void {
-	channels.forEach((channel) => {
+	for (const channel of channels) {
 		emitter.on(channel, handler);
-	});
+	}
 }
 
 function channelUnsubscribe(
 	channels: string[],
 	handler: (payload: SSEEvent) => void,
 ): void {
-	channels.forEach((channel) => {
-		emitter.off(channel, handler);
-	});
+	for (const channel of channels) {
+		emitter.on(channel, handler);
+	}
 }
 
 export const sseSubscribe = (

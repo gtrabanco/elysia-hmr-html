@@ -4,22 +4,11 @@
   "description": "Elysia plugin to make hmr with html files",
   "repository": "https://github.com/gtrabanco/elysia-hmr-html",
   "author": "Gabriel Trabanco <gtrabanco@users.noreply.github.com> (https://gabi.io)",
-  "keywords": [
-    "elysia",
-    "elysiajs",
-    "plugin",
-    "html",
-    "hmr",
-    "bun"
-  ],
+  "keywords": ["elysia", "elysiajs", "plugin", "html", "hmr", "bun"],
   "main": "dist/index.js",
   "types": "src/index.ts",
   "type": "module",
-  "files": [
-    "src",
-    "README.md",
-    "LICENSE.md"
-  ],
+  "files": ["src", "README.md", "LICENSE.md"],
   "scripts": {
     "example": "bun run --watch example/index.ts",
     "build": "bun build --minify --target=bun --external=elysia --outdir=dist src/index.ts",
@@ -34,23 +23,21 @@
     "publish:github": "npm publish --@gtrabanco:registry=https://npm.pkg.github.com/"
   },
   "dependencies": {
-    "@gtrabanco/elysia-inject-html": "1.0.0-4"
+    "@gtrabanco/elysia-inject-html": "1.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.2.2",
-    "@elysiajs/static": "0.7.1",
-    "bun-types": "1.0.3",
-    "elysia": "0.7.12",
-    "husky": "8.0.3",
-    "lint-staged": "14.0.1"
+    "@biomejs/biome": "1.7.3",
+    "@elysiajs/static": "1.0.3",
+    "@types/bun": "1.1.2",
+    "elysia": "1.0.21",
+    "husky": "9.0.11",
+    "lint-staged": "15.2.2"
   },
   "peerDependencies": {
-    "typescript": "5.2.22",
-    "elysia": ">=0.7.0"
+    "typescript": "5.4.5",
+    "elysia": ">=1.0.0"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "bun lint"
-    ]
+    "*.{ts,tsx}": ["bun lint"]
   }
 }

@@ -1,8 +1,9 @@
 import { accessSync, watch } from "node:fs";
 import { extname, join } from "node:path";
 import { injectHtml } from "@gtrabanco/elysia-inject-html";
-import Elysia from "elysia";
+import Elysia, { type LifeCycleType } from "elysia";
 import { clientSSECode } from "./client-sse-code";
+import { getPackageName } from "./plugin-name" with { type: "macro" };
 import { sseEmit, sseSubscribe } from "./sse-event-emitter";
 
 export type HMRConfig = {
@@ -12,6 +13,7 @@ export type HMRConfig = {
 	hmrEndpoint: string;
 	hmrEventName: string;
 	allowRefreshFromAnotherWindow: boolean;
+	as: LifeCycleType;
 };
 
 const defaultConfig: HMRConfig = {
@@ -20,9 +22,10 @@ const defaultConfig: HMRConfig = {
 	hmrEndpoint: "/__hmr_stream__",
 	hmrEventName: "hmr",
 	allowRefreshFromAnotherWindow: false,
+	as: "global",
 };
 
-export const hmr = (config: Partial<HMRConfig> = {}) => {
+export const hmr = async (config: Partial<HMRConfig> = {}) => {
 	const finalConfig = { ...defaultConfig, ...config } as HMRConfig;
 	const extensionsToWatch = finalConfig.extensionsToWatch.map((e) =>
 		e.startsWith(".") ? e : `.${e}`,
@@ -39,22 +42,23 @@ export const hmr = (config: Partial<HMRConfig> = {}) => {
 	try {
 		accessSync(finalConfig.prefixToWatch);
 
-		const watcher = watch(
+		watch(
 			finalConfig.prefixToWatch,
 			{ recursive: true },
 			(eventType, filename = "") => {
-				if (eventType !== "change" || filename instanceof Error) return; // We only care about changes, not creations or deletions
+				if (eventType !== "change") return; // We only care about changes, not creations or deletions
 
-				const extension = extname(filename);
+				const safeFilename = filename ?? ""; // I do not know why I have to do this. If you know please, explain me on an issue 🙏😅
+				const extension = extname(safeFilename);
 				if (extensionsToWatch.length === 0) {
 					sseEmit(finalConfig.hmrEndpoint, {
 						event: finalConfig.hmrEventName,
-						data: eventData(filename),
+						data: eventData(safeFilename),
 					});
 				} else if (extensionsToWatch.includes(extension)) {
 					sseEmit(finalConfig.hmrEndpoint, {
 						event: finalConfig.hmrEventName,
-						data: eventData(filename),
+						data: eventData(safeFilename),
 					});
 				}
 			},
@@ -63,7 +67,7 @@ export const hmr = (config: Partial<HMRConfig> = {}) => {
 		throw new Error(`Prefix "${finalConfig.prefixToWatch}" does not exists`);
 	}
 
-	return new Elysia({ name: "@gtrabanco/elysia-hmr-html" })
+	return new Elysia({ name: await getPackageName() })
 		.use(
 			injectHtml({
 				selector: "body",
