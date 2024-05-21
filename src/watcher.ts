@@ -1,6 +1,6 @@
-import type { Stream } from "@elysiajs/stream";
 import { accessSync, watch } from "node:fs";
 import { extname, join } from "node:path";
+import type { Stream } from "@elysiajs/stream";
 
 export function watcher(config: {
 	extensionsToWatch: string[];
