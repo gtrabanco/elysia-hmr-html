@@ -23,7 +23,7 @@ bun add --exact @gtrabanco/elysia-hmr-html
 ```ts
 import { Elysia } from 'elysia';
 import { staticPlugin } from '@elysiajs/static'
-import { hmr } from '../src';
+import { hmr } from '@gtrabanco/elysia-hmr-html';
 
 const app = new Elysia()
   .use(hmr({
