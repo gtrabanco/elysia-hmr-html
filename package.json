@@ -1,21 +1,34 @@
 {
 	"name": "@gtrabanco/elysia-hmr-html",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Elysia plugin to make hmr with html files",
 	"repository": "https://github.com/gtrabanco/elysia-hmr-html",
-	"author": "Gabriel Trabanco <gtrabanco@users.noreply.github.com> (https://gabi.io)",
-	"keywords": ["elysia", "elysiajs", "plugin", "html", "hmr", "bun"],
-	"main": "dist/index.js",
-	"types": "types.d.ts",
+	"author": "Gabriel Trabanco <gtrabanco@users.noreply.github.com> (https://gabi.pw)",
+	"keywords": [
+		"elysia",
+		"elysiajs",
+		"plugin",
+		"html",
+		"hmr",
+		"bun"
+	],
 	"type": "module",
-	"files": ["dist", "types.d.ts", "README.md", "LICENSE.md"],
+	"types": "./dist/bun/",
+	"files": [
+		"dist",
+		"types.d.ts",
+		"README.md",
+		"LICENSE.md"
+	],
 	"scripts": {
 		"example": "bun run --watch example/index.ts",
-		"build": "bun build --minify --target=bun --external=elysia --outdir=dist src/index.ts",
+		"build": "bun --bun scripts/build.ts",
+		"build:bun": "bun build --production --minify --target=bun --sourcemap=external --external=elysia --outdir=dist/bun src/index.ts",
+		"build:node": "bun build --production --minify --target=node --sourcemap=external --external=elysia --outdir=dist/node src/index.ts",
 		"check": "bunx biome check --no-errors-on-unmatched src",
 		"lint": "bunx biome check --no-errors-on-unmatched --apply src",
 		"fmt": "bunx biome format --no-errors-on-unmatched --write src",
-		"prepare": "husky install",
+		"prepare": "husky install && relative-deps",
 		"prepublishOnly": "bun run build",
 		"prepublish:npm": "bun run check && bun run build",
 		"publish:npm": "npm publish --access public --@gtrabanco:registry=https://registry.npmjs.org",
@@ -30,15 +43,27 @@
 		"@biomejs/biome": "1.7.3",
 		"@elysiajs/static": "1.0.3",
 		"@types/bun": "1.1.2",
+		"bun-plugin-isolated-decl": "0.1.9",
 		"elysia": "1.0.21",
 		"husky": "9.0.11",
-		"lint-staged": "15.2.2"
+		"lint-staged": "15.2.2",
+		"oxc-transform": "0.56.5",
+		"relative-deps": "1.0.7"
 	},
 	"peerDependencies": {
-		"typescript": "5.4.5",
+		"typescript": "5.8.2",
 		"elysia": ">=1.0.0"
 	},
 	"lint-staged": {
-		"*.{ts,tsx}": ["bun lint"]
+		"*.{ts,tsx}": [
+			"bun lint"
+		]
+	},
+	"relativeDependencies": {
+		"@gtrabanco/elysia-inject-html": "../elysia-inject-html"
+	},
+	"exports": {
+		"bun": "./dist/bun/index.js",
+		"import": "./dist/node/index.js"
 	}
 }

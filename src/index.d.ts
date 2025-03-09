@@ -1,8 +1,8 @@
 import type { LifeCycleType } from "elysia";
 
 type WatcherConfig = {
-	prefixToWatch: string,
-}
+	prefixToWatch: string;
+};
 
 export type HMRConfig = {
 	prefixToWatch: string;
