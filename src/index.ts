@@ -1,10 +1,11 @@
 import Stream from "@elysiajs/stream";
 import { injectHtml } from "@gtrabanco/elysia-inject-html";
 import Elysia from "elysia";
-import type { HMRConfig } from "../types";
 import { clientSSECode } from "./client-sse-code";
+import type { HMRConfig } from "./index.d";
 import { getPackageName } from "./plugin-name" with { type: "macro" };
 import { watcher } from "./watcher";
+export type { HMRConfig } from "./index.d";
 
 const defaultConfig: HMRConfig = {
 	prefixToWatch: "./public",
@@ -15,7 +16,7 @@ const defaultConfig: HMRConfig = {
 	as: "global",
 };
 
-export const hmr = async (config: Partial<HMRConfig> = {}) => {
+export const hmr = async (config: Partial<HMRConfig> = {}): Promise<Elysia> => {
 	const finalConfig = { ...defaultConfig, ...config } as HMRConfig;
 
 	return new Elysia({ name: await getPackageName() })
