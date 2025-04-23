@@ -4,12 +4,19 @@ type WatcherConfig = {
 	prefixToWatch: string;
 };
 
+export enum HMRType {
+	WS = "ws",
+	SSE = "sse",
+}
+
 export type HMRConfig = {
 	prefixToWatch: string;
 	publicPath?: string; // Public path to serve prefixToWatch files, for example can be "/assets/public", if not present it will reload all served files
 	extensionsToWatch: string[];
 	hmrEndpoint: string;
 	hmrEventName: string;
+	hmrType: HMRType;
 	allowRefreshFromAnotherWindow: boolean;
 	as: LifeCycleType;
+	eventSourceRetry: number;
 };
