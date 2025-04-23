@@ -6,11 +6,22 @@ This plugin adds fast-refreash using Server Sent Events to your html files.
 
 You can view a example in [`example`](example) directory (is explained in this file).
 
-## Requisitos
+## KNOWN ISSUES
 
-- Browser with [Server Sent Events Support](https://caniuse.com/eventsource)
-- [Elysia](https://elysiajs.com/) package installed
+- There is an issue with server sent events currently in Bun:
+  - https://github.com/oven-sh/bun/issues/17947
+  - https://github.com/elysiajs/elysia/issues/909#issuecomment-2667693911
+  - https://github.com/elysiajs/elysia/issues/755
+  - https://github.com/elysiajs/elysia/issues/732
+
+**RECOMMENDED**: Use default Websockets implementation instead of SSE.
+
+## Requirements
+
+- Browser with [Server Sent Events Support](https://caniuse.com/eventsource) or [Websockets](https://caniuse.com/websockets)
+- [Elysia 1.1.0](https://elysiajs.com/) or newer package installed
 - Bun. Not tested with NodeJS, but probably you will need [some wrappers](https://github.com/jhmaster2000/node-bun), [Elysia/node package](https://github.com/elysiajs/node-adapter) and [HTMLRewriter](https://www.npmjs.com/package/html-rewriter-wasm) package.
+- You need to set `idleTimeout` to 0 in your server if you use SSE but it could fail as well. I had no issues but maybe you need this also for Websockets.
 
 ## Installation
 
@@ -32,7 +43,13 @@ const app = new Elysia()
   .use(staticPlugin({
     assets: 'example/public',
     prefix: '',
-  })).listen(process.env.PORT || 0, ({ hostname, port }) => { console.log(`Elysia server started http://${hostname}:${port}`) });
+  }))
+  .listen(
+    { 
+      port: process.env.PORT || 0,
+      idleTimeout: 0
+    }, ({ hostname, port }) => { console.log(`Elysia server started http://${hostname}:${port}`) }
+  );
 ```
 
 ## Run the included example
@@ -61,3 +78,4 @@ This plugin listen in BroadcastChannel on client in the channel with configured 
 - [Browser support of Server Sent Events in CanIUse](https://caniuse.com/eventsource)
 - [MDN Server Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)
 - [BroadcastChannel](https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API)
+- [Websockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)

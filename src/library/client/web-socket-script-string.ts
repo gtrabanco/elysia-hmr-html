@@ -7,15 +7,22 @@ export function clientWebSocketScriptString(
     <script>
       window.addEventListener('load', () => {
         const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
-        const ws = new WebSocket(\`\${ scheme }://${websocketUrlWithoutScheme}\`);
+        const wsUrl = new URL(\`${websocketUrlWithoutScheme}\`, window.location.origin);
+        wsUrl.protocol = scheme;
+        const ws = new WebSocket(wsUrl.href);
         ws.addEventListener('open', () => {
           // Send current pathname to server
           ws.send(window.location.pathname);
         });
-        ws.addEventListener('${refeshEvent}', (event) => {
+        ws.addEventListener('message', (event) => {
           // reload only if all or the current pathname is received
-          if (event.data === window.location.pathname || event.data === 'all')
+          const { type, data } = JSON.parse(event.data ?? "{}");
+          const isValidEventType = type === "${refeshEvent}";
+          const isValidPath = data === '*' || data === window.location.pathname;
+          if (isValidEventType && isValidPath) {
+            console.log('[HMR] Reloading page...');
             window.location.reload();
+          }
         });
         window.addEventListener("beforeunload", () => {
           if(ws.readyState === WebSocket.OPEN) {

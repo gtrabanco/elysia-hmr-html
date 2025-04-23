@@ -15,6 +15,9 @@ const app = new Elysia()
 			prefix: "",
 		}),
 	)
-	.listen(process.env.PORT || 0, ({ hostname, port }) => {
-		console.log(`Elysia server started http://${hostname}:${port}`);
-	});
+	.listen(
+		{ port: process.env.PORT || 0 },
+		({ hostname, port }) => {
+			console.log(`Elysia server started http://${hostname}:${port}`);
+		},
+	);
